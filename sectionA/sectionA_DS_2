@@ -1,0 +1,95 @@
+import csv
+import sys
+
+#################
+#Data Structures 2 
+#################
+
+contact_info = {}
+with open('../files/datastructures2.csv','r') as csvfile:
+    filecontent = csv.reader(csvfile,delimiter=';')
+    next(filecontent)
+    row_count = 0
+    for row in filecontent:
+        first_name,last_name = row_count,f'{row[0]} {row[1]}'
+        row_count += 1
+        contact_info.update({first_name:last_name})
+        
+#read, search, edit, delete, add
+class ContactInformation():
+    # def __init__(self):
+    #     self.contact_info = {}
+
+    def readContactInfo(self):
+        print("{" + "\n".join("{!r}  {!r}".format(k, v) for k, v in contact_info.items()) + "}")
+        print(f'Size of data in memory : {sys.getsizeof(contact_info)} bytes')
+        self.menu()
+        return contact_info
+
+    def searchContactInfo(self):
+        name = input('Please enter Full Name to search below : ')
+        for x, y in contact_info.items():
+            if name.lower() == y.lower():
+                print('Full name : ',x,y)
+                self.menu()
+                return
+            elif name not in contact_info.values():
+                print('Name does not exist.')
+                return
+    
+    def editContactInfo(self):
+        name = input('Please enter name of user details you would like to edit : ')
+        for x, y in contact_info.items():
+            if contact_info[x] == name:
+                new_name = input(f'Update Full Name from {name} to ') 
+                contact_info[x] = new_name
+                print(f'User updated! {x}. {new_name}')
+                self.menu()    
+                return
+            elif name not in contact_info.values():
+                print('Name does not exist.')
+                return
+
+    def deleteContactItem(self):
+        name = input('Enter Full name of user to delete : ')
+        for x, y in contact_info.items():
+            if contact_info[x] == name:
+                del contact_info[x]
+                print('Item has been deleted!')
+                return
+            elif name not in contact_info.values():
+                print('Name does not exist.')
+                return
+
+    def addContactItem(self):
+        name = input('Add Full Name of new user : ')
+        for x, y in contact_info.items():
+            if x == list(contact_info)[-1]:
+                row_counter = x + 1
+                contact_info.update({row_counter:name})
+                print(f'User added! {row_counter}. {contact_info[row_counter]}')
+                self.menu()
+                return
+
+    def menu(self):
+        print('Which action would you like to perform?(select Number)')
+        choice = input('1.Read 2.Edit 3.Search 4.add 5.Delete : ')
+        if choice == '1':
+            self.readContactInfo()
+        elif choice == '2':
+            self.editContactInfo()
+            pass
+        elif choice == '3':
+            self.searchContactInfo()
+            pass
+        elif choice == '4':
+            self.addContactItem()
+            pass
+        elif choice == '5':
+            self.deleteContactItem()
+            pass
+        else:
+            print('Invalid number!')
+
+users = ContactInformation()
+users.menu()

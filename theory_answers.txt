@@ -1,0 +1,23 @@
+1. Array consists of elements of same data type whereas linked lists consists of nodes which are linked to each other.
+Arrays would be beneficial when needing to access elements quickly in no particular order eg search 
+Linked lists should be used when you don't need random access & you need to modify list constantly (insertion/deletion)
+
+2. dictionary uses key:value pairs(similar to how a dictiory would work - word:definition) and do not allow duplicates
+--should be used to store large amounts of data for easy and quick access
+
+stack uses Last-In/First-Out manner and only allows pop() and push() to edit(add and remove) along with few other functions
+ --would be useful when needing to return items in reverse order eg :  when you hit ctrl+z,like generating website history, etc
+
+queue is similar to a stack but uses First In First Out manner
+--would be useful if we need a process to be executed one after other automatically
+
+3. A) we use the modular hashing method
+B)  modular hashing works for strings too: we treat them as integers.
+C) We can use 'chaining' to store lists of elements rather than single elements, we could 
+also use 'open addressing' which uses secondary cell, if first hash is occupied
+
+4. Splay tree - a splay tree is a binary search tree. The cool thing about a splay tree is 
+whenever an element is searched up in the tree, the splay tree moves that element to the root of the tree 
+what makes this useful is that the tree benefits from the locality of reference(tendency of computer program to access same set of 
+ memory locations). An example of spray tree usage/execution would be network router(router) since it usuually connects recently connected devices.
+you would use spray trees when you're goinng to access same elements frequently this makes for a quicker binary search
