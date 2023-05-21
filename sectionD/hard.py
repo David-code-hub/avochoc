@@ -27,13 +27,14 @@ class handleToll():
         #run next function
         tollaslist = [t for t,v in self.alltollsdict.items()]
         related_tolls = process.extract(letter,tollaslist,limit=5)
-        for i,t in enumerate(related_tolls):
-            for l in self.previouslyusedletters:
-                if l == t[0]:
-                    related_tolls.pop(i)     
+        if len(self.previouslyusedletters) < 6:
+            for i,t in enumerate(related_tolls):
+                for l in self.previouslyusedletters:
+                    if l == t[0]:
+                        related_tolls.pop(i)     
         #now we have possible next tolls
         #find cheapest
-        self.calCheapest(related_tolls,letter)
+            self.calCheapest(related_tolls,letter)
         return related_tolls
 
     def calCheapest(self,related_tolls,letter):
@@ -54,47 +55,72 @@ class handleToll():
         return cheapest
 
     def cheapestKey(self,cheapest,letter):
-        print(f'retrieving road and price of {letter}')
+        # print(f'retrieving road and price of {letter}')
         #basically getting road and price based on previous func
         for key,value in self.alltollsdict.items():
             if key[0] == letter and value == cheapest:
-                if len(self.previouslyusedletters) >= 5:
-                    print(self.previouslyusedletters,self.totalamount)
+                if len(self.previouslyusedletters) == 5:
+                    # print(self.previouslyusedletters,self.totalamount)
                     self.handleLastA(key[-1])
-                    return
+                    break
                 else:
                     self.previouslyusedletters.append(key)
                     self.totalamount += value
                     self.findTollB(key[-1])
             elif key[-1] == letter and value == cheapest:
-                if len(self.previouslyusedletters) >= 5:
-                    print(self.previouslyusedletters,self.totalamount)
-                    self.handleLastA(key[0])
-                    return
+                if len(self.previouslyusedletters) == 5:
+                    self.handleLastA(key[-1])
+                    break
                 else:
                     self.previouslyusedletters.append(key)
                     self.totalamount += value
                     self.findTollB(key[0])
 
     def handleLastA(self,letter):
+        cheapest_route = ''
         for key,val in self.alltollsdict.items():
             if f'{letter}-A' == key:
                 self.previouslyusedletters.append(key)
                 self.totalamount += val
-                return
+                print(self.previouslyusedletters,self.totalamount)
+                prev_letter = ''
+                for l in self.previouslyusedletters:
+                    if prev_letter == '': 
+                        prev_letter = l[-1]
+                        cheapest_route += f'{l[0]} {l[-1]}'
+                    elif prev_letter == l[0]:
+                        prev_letter = l[-1]
+                        cheapest_route += f' {l[-1]}'
+                    else:
+                        prev_letter = l[0]
+                        cheapest_route += f' {l[0]}'
+                print(cheapest_route,self.totalamount)
+                break 
             elif f'A-{letter}' == key:
                 self.previouslyusedletters.append(key)
                 self.totalamount += val
-                return
+                # print(self.previouslyusedletters,self.totalamount)
+                prev_letter = ''
+                for l in self.previouslyusedletters:
+                    if prev_letter == '': 
+                        prev_letter = l[-1]
+                        cheapest_route += f'{l[0]} {l[-1]}'
+                    elif prev_letter == l[0]:
+                        prev_letter = l[-1]
+                        cheapest_route += f' {l[-1]}'
+                    else:
+                        prev_letter = l[0]
+                        cheapest_route += f' {l[0]}'
+                print(f'{cheapest_route} , {self.totalamount}')
+                break
             else:
                 pass
-
-        print(self.previouslyusedletters,self.totalamount)
+        return
 
     
 tollfunc = handleToll()
-tollfunc.handleInput('6, 3, 2, 3, 10, 1, 6, 7, 4, 5, 1, 5, 10, 7, 3')
-# tollfunc.handleInput('10, 15, 7, 10, 7, 7, 9, 6, 7, 11, 12, 8, 5, 14, 9')
+# tollfunc.handleInput('6, 3, 2, 3, 10, 1, 6, 7, 4, 5, 1, 5, 10, 7, 3')
+tollfunc.handleInput('10, 15, 7, 10, 7, 7, 9, 6, 7, 11, 12, 8, 5, 14, 9')
 # tollfunc.handleInput('9, 8, 7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7')
 # tollfunc.handleInput('6, 0, 7, 0, 8, 0, 1, 2, 3, 0, 5, 6, 7, 8, 9')#need to add handling for 0's 
 # tollfunc.handleInput('12, 10, 14, 4, 11, 7, 2, 2, 10, 3, 6, 9, 8, 10, 1')

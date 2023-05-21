@@ -1,5 +1,3 @@
-#python3 -m pip install rapidfuzz
-#python3 -m pip install python-Levenshtein 
 from rapidfuzz import fuzz,process
 import csv
 import time

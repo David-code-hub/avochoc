@@ -1,8 +1,5 @@
 ##cal bank security num
 nums = 1567890123   
-# 193 
-# 901090506 
-# 1567890123 
 
 def handleMultiplication(total):
     numsprocessed = 0
@@ -19,8 +16,10 @@ def calSecurityDigit(nums):
     total = nums
     while len(str(total)) > 1:#hehe let's hope your pc doesn't break:) jk it works fine
         total = handleMultiplication(total)
-        print('total',total)
-    print('Security key is :',total)
+        # print('total',total)
+    print(f'Security key for {nums} is :',total)
     return
     
-calSecurityDigit(nums)
+calSecurityDigit('193')
+calSecurityDigit('901090506')
+calSecurityDigit('1567890123')
